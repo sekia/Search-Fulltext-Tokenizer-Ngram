@@ -30,7 +30,7 @@ sub create_token_iterator {
       ++$token_index;
       return if $token_index + $n > length($text);
       my $token = substr $text, $token_index, $n;
-      redo GET_NEXT_TOKEN if $token =~ /\n\r\s/s;
+      redo GET_NEXT_TOKEN if $token =~ /\s/;
       return ($token, $n, $token_index, $token_index + $n, $token_index);
     }
   };
