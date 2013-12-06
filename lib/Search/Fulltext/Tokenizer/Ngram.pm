@@ -1,6 +1,6 @@
 package Search::Fulltext::Tokenizer::Ngram;
 
-# ABSTRACT: N-gram tokenizer for Search::Fulltext
+# ABSTRACT: Character n-gram tokenizer for Search::Fulltext
 
 use strict;
 use warnings;
@@ -39,3 +39,48 @@ sub create_token_iterator {
 sub token_length { $_[0]->{token_length} }
 
 1;
+
+=encoding utf8
+
+=head1 SYNOPSIS
+
+  use utf8;
+  use Search::Fulltext;
+  use Search::Fulltext::Tokenizer::Bigramm;
+  
+  my $searcher = Search::Fulltext->new(
+      docs => [
+          'ハンプティ・ダンプティ 塀の上',
+          'ハンプティ・ダンプティ 落っこちた',
+          '王様の馬みんなと 王様の家来みんなでも',
+          'ハンプティを元に 戻せなかった',
+      ],
+      tokenizer => q/perl 'Search::Fulltext::Tokenizer::Bigram::get_tokenizer'/,
+  );
+  my $hit_document_ids = $searcher->search('ハンプティ');  # [0, 1, 3]
+
+=head1 DESCRIPTION
+
+This module provides character N-gram tokenizers for L<Search::Fulltext>.
+
+By default {1,2,3}-gram tokenzers are available.
+
+=head1 CREATING A N(> 3)-GRAM TOKENIZER
+
+If you wish to use other N-grams where N > 3, you can create it by inheriting C<Search::Fulltext::Tokenizer::Ngram>:
+
+  package My::Tokenizer::42gram;
+  
+  use parent qw/Search::Fulltext::Tokenizer::Ngram/;
+  
+  my $iterator_generator = __PACKAGE__->new(42);
+  
+  sub get_tokenizer {
+      sub { $iterator_generator->create_token_iterator(@_) };
+  }
+
+=head1 SEE ALSO
+
+L<Search::Fulltext::Tokenizer::Unigram>
+L<Search::Fulltext::Tokenizer::Bigram>
+L<Search::Fulltext::Tokenizer::Trigram>
