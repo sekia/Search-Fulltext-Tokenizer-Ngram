@@ -40,8 +40,6 @@ sub token_length { $_[0]->{token_length} }
 
 1;
 
-=encoding utf8
-
 =head1 SYNOPSIS
 
   use utf8;
