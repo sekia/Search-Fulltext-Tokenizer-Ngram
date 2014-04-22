@@ -44,7 +44,7 @@ sub token_length { $_[0]->{token_length} }
 
   use utf8;
   use Search::Fulltext;
-  use Search::Fulltext::Tokenizer::Bigramm;
+  use Search::Fulltext::Tokenizer::Bigram;
   
   my $searcher = Search::Fulltext->new(
       docs => [
